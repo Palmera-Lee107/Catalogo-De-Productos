@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden; /* Oculta el desbordamiento horizontal */
+            padding-bottom: 60px; /* Añadido para evitar que el botón de WhatsApp quede cubierto */
+        }
+
+        h1 {
+            color: #333;
+            font-family: 'Monotype Corsiva', Courier, monospace; /* Cambia la fuente del encabezado */
+            font-size: 50px; /* Hacer más grande el encabezado */
+        }
+
+        /* Estilos para el cuadro del eslogan */
+        .eslogan {
+            position: fixed;
+            bottom: 0; /* Lo coloca en la parte inferior de la página */
+            left: 0; /* Lo coloca en el extremo izquierdo de la página */
+            background: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+            padding: 10px 40px; /* Espaciado dentro del cuadro */
+            border-radius: 0px; /* Bordes redondeados */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Sombra en el texto */
+            width: 100%; /* Abarca todo el ancho de la página */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra alrededor del cuadro */
+            z-index: 10; /* Asegura que esté por encima de otros elementos */
+            white-space: nowrap; /* Evita que el texto se rompa */
+            overflow: hidden; /* Evita que el texto se desborde fuera del cuadro */
+            display: flex;
+            justify-content: center; /* Centra el texto */
+            flex-wrap: wrap; /* Permite que el texto se adapte a diferentes tamaños de pantalla */
+        }
+
+        .eslogan h1 {
+            margin: 0;
+            font-size: 20px;
+            color: #f7f7f7; /* Color del texto más visible */
+            animation: moverTexto 20s linear infinite; /* Añade la animación para el movimiento */
+            white-space: nowrap; /* Evita que el texto se rompa */
+        }
+
+        .eslogan span {
+            color: #f30000;
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        /* Animación para mover el texto de izquierda a derecha de forma continua */
+        @keyframes moverTexto {
+            1% {
+                transform: translateX(-50%); /* Comienza fuera de la pantalla a la izquierda */
+            }
+            50% {
+                transform: translateX(0); /* Está completamente visible */
+            }
+            100% {
+                transform: translateX(100%); /* Se desplaza completamente a la derecha */
+            }
+        }
+
+        /* Estilos para el catálogo de productos */
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajusta la cantidad de columnas */
+            gap: 20px;  /* Espacio entre los productos */
+            padding: 20px;
+            margin-top: 120px; /* Ajusta el contenido para que no se superponga con el eslogan fijo */
+        }
+
+        .producto {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer; /* Cambia el cursor a una mano para indicar que es clicable */
+        }
+
+        .producto img {
+            width: 100%;  /* Ajusta al 100% del contenedor */
+            height: 200px; /* Altura fija para todas las imágenes */
+            object-fit: cover; /* Recorta las imágenes para que no se deformen */
+            border-radius: 10px;
+        }
+
+        .producto h2 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        /* Estilos para el ícono de WhatsApp */
+        .whatsapp {
+            position: fixed;
+            bottom: 80px; /* Lo sube un poco para no interferir con el eslogan */
+            right: 20px;
+            background: #25D366;
+            padding: 10px 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .whatsapp a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .whatsapp img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        /* Estilos para la ventana modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 100; /* Por encima de otros elementos */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .categoria {
+            margin-top: 40px;
+        }
+
+        .categoria h2 {
+            font-size: 30px;
+            color: #333;
+            font-family: 'Monotype Corsiva', Courier, monospace;
+            margin: 0; /* Quitar el espacio entre los títulos de las categorías */
+        }
+    </style>
+</head>
+<body>
+    <div class="eslogan">
+        <h1>Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> </h1>
+    </div>
+
+    <h1>Moito Bonito Fashion<br>Catálogo de Productos</h1> 
+
+    <div class="categoria">
+        <h2>Ropa</h2>
+        <div class="catalogo ropa">
+            <!-- Los productos de ropa se generarán aquí automáticamente -->
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>Gorras</h2>
+        <div class="catalogo gorras">
+            <!-- Los productos de gorras se generarán aquí automáticamente -->
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>Bolsos</h2>
+        <div class="catalogo bolsos">
+            <!-- Los productos de bolsos se generarán aquí automáticamente -->
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>Carteras</h2>
+        <div class="catalogo carteras">
+            <!-- Los productos de carteras se generarán aquí automáticamente -->
+        </div>
+    </div>
+
+    <div class="categoria">
+        <h2>Accesorios</h2>
+        <div class="catalogo accesorios">
+            <!-- Los productos de accesorios se generarán aquí automáticamente -->
+        </div>
+    </div>
+
+    <div class="whatsapp">
+        <a href="https://wa.me/+50684113258?text=Hola,%20quiero%20más%20información%20sobre%20sus%20productos!">
+            <img src="imagenes/whatsapp.png" alt="WhatsApp"> +506 8411-3258
+        </a>
+    </div>
+
+    <!-- Ventana modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="Producto" style="width: 100%; height: auto; border-radius: 10px;">
+            <h2 id="modalTitle"></h2>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const categorias = {
+                ropa: document.querySelector(".catalogo.ropa"),
+                gorras: document.querySelector(".catalogo.gorras"),
+                bolsos: document.querySelector(".catalogo.bolsos"),
+                carteras: document.querySelector(".catalogo.carteras"),
+                accesorios: document.querySelector(".catalogo.accesorios")
+            };
+            const modal = document.getElementById("myModal");
+            const modalImage = document.getElementById("modalImage");
+            const modalTitle = document.getElementById("modalTitle");
+            const span = document.getElementsByClassName("close")[0];
+
+            // Generar productos con nombres numerados y categorías
+            const productos = [];
+            for (let i = 1; i <= 97; i++) {
+                let categoria;
+                if (i <= 43) categoria = 'ropa';
+                else if (i <= 60) categoria = 'gorras';
+                else if (i <= 69) categoria = 'bolsos';
+                else if (i <= 82) categoria = 'carteras';
+                else categoria = 'accesorios';
+
+                productos.push({
+                    nombre: `Producto ${i}`,
+                    imagen: `imagenes/producto${i}.jpg`, // Asegúrate de tener las imágenes en esta carpeta
+                    categoria: categoria
+                });
+            }
+
+            productos.forEach((producto) => {
+                const divProducto = document.createElement("div");
+                divProducto.classList.add("producto");
+
+                divProducto.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <h2>${producto.nombre}</h2>
+                `;
+
+                divProducto.addEventListener("click", function () {
+                    modal.style.display = "flex";
+                    modalImage.src = producto.imagen;
+                    modalTitle.textContent = producto.nombre;
+                });
+
+                categorias[producto.categoria].appendChild(divProducto);
+            });
+
+            // Cerrar la ventana modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
