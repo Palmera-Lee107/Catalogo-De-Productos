@@ -81,6 +81,57 @@
             padding: 20px;
             margin-top: 120px; /* Ajusta el contenido para que no se superponga con el eslogan fijo */
         }
+/* Estilos para la ventana de introducción */
+.intro-modal {
+    display: flex; /* Oculto por defecto */
+    position: fixed;
+    z-index: 200; /* Por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-modal-content {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.intro-modal-content h2 {
+    font-size: 24px;
+    color: #333;
+    font-family: 'Monotype Corsiva', Courier, monospace;
+}
+
+.intro-modal-content p {
+    font-size: 16px;
+    color: #333;
+    font-family: Arial, sans-serif;
+    margin-top: 10px;
+}
+
+.intro-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.intro-close:hover,
+.intro-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
         .producto {
             background: white;
@@ -162,6 +213,32 @@
             text-align: center;
         }
 
+        .modal-content p {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            margin-top: 5px;
+            font-family: Arial, sans-serif; /* Cambia la fuente al mismo estilo del precio */
+        }
+
+        .modal-content a {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            font-family: Arial, sans-serif; /* Cambia la fuente al mismo estilo del precio */
+            margin-top: 10px; /* Añade espacio entre el precio y el botón de WhatsApp */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .modal-content a img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+
         .close {
             color: #aaa;
             float: right;
@@ -217,6 +294,20 @@
     </style>
 </head>
 <body>
+    <!-- Ventana de introducción -->
+<div id="introModal" class="intro-modal">
+    <div class="intro-modal-content">
+        <span class="intro-close">&times;</span>
+        <h2>✨Bienvenidos a Molto Bonito Fashion✨</h2>
+        <p>En nuestra tienda, celebramos la esencia de Colombia a través de nuestra exclusiva colección de ropa y accesorios, nuestras prendas son exclusivas y de alta calidad y podrás encontrar entre las marcas como Gucci, Prada, Balenciaga y Louis Vuitton.</p>
+        <p>Nos enfocamos en ofrecer diseños auténticos, materiales de alta calidad y detalles únicos. Ya sea que busques un look moderno, sport o accesorios que resalten tu estilo, aquí encontrarás lo mejor de la moda colombiana.</p>
+        <p>Se parte de nuestro emprendimiento y lleva contigo la belleza de Colombia en cada prenda. ¡Descubre nuestra colección y marca tendencia!</p>
+        <p>Realizamos envío en todo el país</p>
+        <p>Contamos con tienda física y virtual</p>
+        <p>Métodos de pago: Efectivo, Tarjeta, transferencia y sinpe</p>
+    </div>
+</div>
+
     <div class="eslogan">
         <h1>Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> Hay varios bonitos... con <span>Molto Bonito Fashion</span> </h1>
     </div>
@@ -276,6 +367,9 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <img id="modalImage" src="" alt="Producto" style="width: 100%; height: auto; border-radius: 10px;">
+            <a id="whatsappButton" href="" target="_blank" style="display: flex; align-items: center; justify-content: center; text-decoration: none; color: #333; font-size: 16px; font-weight: bold; margin-top: 10px;">
+                <img src="imagenes/whatsapp.png" alt="WhatsApp" style="width: 24px; height: 24px; margin-right: 10px;"> Contactar por WhatsApp
+            <p id="modalPrice"></p>
         </div>
     </div>
 
@@ -290,110 +384,125 @@
             };
             const modal = document.getElementById("myModal");
             const modalImage = document.getElementById("modalImage");
+            const modalPrice = document.getElementById("modalPrice");
+            const whatsappButton = document.getElementById("whatsappButton");
+            const introModal = document.getElementById("introModal");
+            const introClose = document.getElementsByClassName("intro-close")[0];
             const span = document.getElementsByClassName("close")[0];
+
+            introModal.style.display = "flex";
+
+// Cerrar la ventana de introducción
+introClose.onclick = function () {
+    introModal.style.display = "none";
+}
+
+window.onclick = function (event) {
+    if (event.target == introModal) {
+        introModal.style.display = "none";
+    }
+}
 
             // Generar productos con nombres numerados, descripciones y categorías
             const productos = [
-                { imagen: 'imagenes/producto1.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 2', descripcion: 'Descripción personalizada del Producto 2', imagen: 'imagenes/producto2.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 3', descripcion: 'Descripción personalizada del Producto 3', imagen: 'imagenes/producto3.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 3', descripcion: 'Descripción personalizada del Producto 3', imagen: 'imagenes/producto3.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 4', descripcion: 'Descripción personalizada del Producto 4', imagen: 'imagenes/producto4.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 5', descripcion: 'Descripción personalizada del Producto 5', imagen: 'imagenes/producto5.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 6', descripcion: 'Descripción personalizada del Producto 6', imagen: 'imagenes/producto6.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 7', descripcion: 'Jeans AlexanderWang', imagen: 'imagenes/producto7.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 8', descripcion: 'Jeans AlexanderWang', imagen: 'imagenes/producto8.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 9', descripcion: 'Descripción personalizada del Producto 9', imagen: 'imagenes/producto9.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 10', descripcion: 'Descripción personalizada del Producto 10', imagen: 'imagenes/producto10.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 11', descripcion: 'Blusa Chanel', imagen: 'imagenes/producto11.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 12', descripcion: 'Descripción personalizada del Producto 12', imagen: 'imagenes/producto12.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 13', descripcion: 'Sweeter Mujer Prada', imagen: 'imagenes/producto13.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 14', descripcion: 'Blusa Chanel', imagen: 'imagenes/producto14.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 15', descripcion: 'Blusa Dolce&Gabbana', imagen: 'imagenes/producto15.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 16', descripcion: 'Descripción personalizada del Producto 16', imagen: 'imagenes/producto16.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 17', descripcion: 'Descripción personalizada del Producto 17', imagen: 'imagenes/producto17.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 18', descripcion: 'Descripción personalizada del Producto 18', imagen: 'imagenes/producto18.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 19', descripcion: 'Top Christian Dior', imagen: 'imagenes/producto19.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 20', descripcion: 'Descripción personalizada del Producto 20', imagen: 'imagenes/producto20.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 21', descripcion: 'Descripción personalizada del Producto 21', imagen: 'imagenes/producto21.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 22', descripcion: 'Descripción personalizada del Producto 22', imagen: 'imagenes/producto22.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 23', descripcion: 'Descripción personalizada del Producto 23', imagen: 'imagenes/producto23.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 24', descripcion: 'Short Adidas', imagen: 'imagenes/producto24.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 25', descripcion: 'Descripción personalizada del Producto 25', imagen: 'imagenes/producto25.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 26', descripcion: 'Descripción personalizada del Producto 26', imagen: 'imagenes/producto26.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 27', descripcion: 'Descripción personalizada del Producto 27', imagen: 'imagenes/producto27.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 28', descripcion: 'Camiseta Louis Vuitton', imagen: 'imagenes/producto28.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 29', descripcion: 'Descripción personalizada del Producto 29', imagen: 'imagenes/producto29.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 30', descripcion: 'Conjunto Prada', imagen: 'imagenes/producto30.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 31', descripcion: 'Polo James Bark', imagen: 'imagenes/producto31.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 32', descripcion: 'Descripción personalizada del Producto 32', imagen: 'imagenes/producto32.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 33', descripcion: 'Descripción personalizada del Producto 33', imagen: 'imagenes/producto33.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 34', descripcion: 'Sweeter Hombre Prada', imagen: 'imagenes/producto34.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 35', descripcion: 'Descripción personalizada del Producto 35', imagen: 'imagenes/producto35.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 36', descripcion: 'Descripción personalizada del Producto 36', imagen: 'imagenes/producto36.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 37', descripcion: 'Descripción personalizada del Producto 37', imagen: 'imagenes/producto37.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 38', descripcion: 'Descripción personalizada del Producto 38', imagen: 'imagenes/producto38.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 39', descripcion: 'Descripción personalizada del Producto 39', imagen: 'imagenes/producto39.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 40', descripcion: 'Descripción personalizada del Producto 40', imagen: 'imagenes/producto40.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 41', descripcion: 'Descripción personalizada del Producto 41', imagen: 'imagenes/producto41.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 42', descripcion: 'Descripción personalizada del Producto 42', imagen: 'imagenes/producto42.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 43', descripcion: 'Descripción personalizada del Producto 43', imagen: 'imagenes/producto43.jpg', categoria: 'ropa' },
-                { nombre: 'Producto 44', descripcion: 'Descripción personalizada del Producto 44', imagen: 'imagenes/producto44.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 45', descripcion: 'Descripción personalizada del Producto 45', imagen: 'imagenes/producto45.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 46', descripcion: 'Descripción personalizada del Producto 46', imagen: 'imagenes/producto46.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 47', descripcion: 'Descripción personalizada del Producto 47', imagen: 'imagenes/producto47.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 48', descripcion: 'Descripción personalizada del Producto 48', imagen: 'imagenes/producto48.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 49', descripcion: 'Descripción personalizada del Producto 49', imagen: 'imagenes/producto49.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 50', descripcion: 'Descripción personalizada del Producto 50', imagen: 'imagenes/producto50.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 51', descripcion: 'Descripción personalizada del Producto 51', imagen: 'imagenes/producto51.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 52', descripcion: 'Descripción personalizada del Producto 52', imagen: 'imagenes/producto52.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 53', descripcion: 'Descripción personalizada del Producto 53', imagen: 'imagenes/producto53.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 54', descripcion: 'Descripción personalizada del Producto 54', imagen: 'imagenes/producto54.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 55', descripcion: 'Descripción personalizada del Producto 55', imagen: 'imagenes/producto55.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 56', descripcion: 'Descripción personalizada del Producto 56', imagen: 'imagenes/producto56.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 57', descripcion: 'Descripción personalizada del Producto 57', imagen: 'imagenes/producto57.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 58', descripcion: 'Descripción personalizada del Producto 58', imagen: 'imagenes/producto58.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 59', descripcion: 'Descripción personalizada del Producto 59', imagen: 'imagenes/producto59.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 60', descripcion: 'Descripción personalizada del Producto 60', imagen: 'imagenes/producto60.jpg', categoria: 'gorras' },
-                { nombre: 'Producto 61', descripcion: 'Descripción personalizada del Producto 61', imagen: 'imagenes/producto61.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 62', descripcion: 'Descripción personalizada del Producto 62', imagen: 'imagenes/producto62.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 63', descripcion: 'Descripción personalizada del Producto 63', imagen: 'imagenes/producto63.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 64', descripcion: 'Descripción personalizada del Producto 64', imagen: 'imagenes/producto64.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 65', descripcion: 'Descripción personalizada del Producto 65', imagen: 'imagenes/producto65.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 66', descripcion: 'Descripción personalizada del Producto 66', imagen: 'imagenes/producto66.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 67', descripcion: 'Descripción personalizada del Producto 67', imagen: 'imagenes/producto67.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 68', descripcion: 'Descripción personalizada del Producto 68', imagen: 'imagenes/producto68.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 69', descripcion: 'Descripción personalizada del Producto 69', imagen: 'imagenes/producto69.jpg', categoria: 'bolsos' },
-                { nombre: 'Producto 70', descripcion: 'Descripción personalizada del Producto 70', imagen: 'imagenes/producto70.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 71', descripcion: 'Descripción personalizada del Producto 71', imagen: 'imagenes/producto71.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 72', descripcion: 'Descripción personalizada del Producto 72', imagen: 'imagenes/producto72.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 73', descripcion: 'Descripción personalizada del Producto 73', imagen: 'imagenes/producto73.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 74', descripcion: 'Descripción personalizada del Producto 74', imagen: 'imagenes/producto74.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 75', descripcion: 'Descripción personalizada del Producto 75', imagen: 'imagenes/producto75.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 76', descripcion: 'Descripción personalizada del Producto 76', imagen: 'imagenes/producto76.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 77', descripcion: 'Descripción personalizada del Producto 77', imagen: 'imagenes/producto77.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 78', descripcion: 'Descripción personalizada del Producto 78', imagen: 'imagenes/producto78.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 79', descripcion: 'Descripción personalizada del Producto 79', imagen: 'imagenes/producto79.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 80', descripcion: 'Descripción personalizada del Producto 80', imagen: 'imagenes/producto80.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 81', descripcion: 'Descripción personalizada del Producto 81', imagen: 'imagenes/producto81.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 82', descripcion: 'Descripción personalizada del Producto 82', imagen: 'imagenes/producto82.jpg', categoria: 'carteras' },
-                { nombre: 'Producto 83', descripcion: 'Descripción personalizada del Producto 83', imagen: 'imagenes/producto83.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 84', descripcion: 'Descripción personalizada del Producto 84', imagen: 'imagenes/producto84.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 85', descripcion: 'Descripción personalizada del Producto 85', imagen: 'imagenes/producto85.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 86', descripcion: 'Descripción personalizada del Producto 86', imagen: 'imagenes/producto86.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 87', descripcion: 'Descripción personalizada del Producto 87', imagen: 'imagenes/producto87.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 88', descripcion: 'Descripción personalizada del Producto 88', imagen: 'imagenes/producto88.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 89', descripcion: 'Descripción personalizada del Producto 89', imagen: 'imagenes/producto89.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 90', descripcion: 'Descripción personalizada del Producto 90', imagen: 'imagenes/producto90.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 91', descripcion: 'Descripción personalizada del Producto 91', imagen: 'imagenes/producto91.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 92', descripcion: 'Descripción personalizada del Producto 92', imagen: 'imagenes/producto92.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 93', descripcion: 'Descripción personalizada del Producto 93', imagen: 'imagenes/producto93.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 94', descripcion: 'Descripción personalizada del Producto 94', imagen: 'imagenes/producto94.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 95', descripcion: 'Descripción personalizada del Producto 95', imagen: 'imagenes/producto95.jpg', categoria: 'accesorios' },
-                { nombre: 'Producto 96', descripcion: 'Descripción personalizada del Producto 96', imagen: 'imagenes/producto96.jpg', categoria: 'accesorios' },
-                // Añade más productos aquí con descripciones personalizadas
-                // ...
-                { nombre: 'Producto 97', descripcion: 'Descripción personalizada del Producto 97', imagen: 'imagenes/producto97.jpg', categoria: 'accesorios' }
+                { precio: '$10.00', imagen: 'imagenes/producto1.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto2.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto3.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto3.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto4.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto5.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto6.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto7.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto8.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto9.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto10.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto11.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto12.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto13.jpg', categoria: 'ropa' },
+                { precio: '$10.00', imagen: 'imagenes/producto14.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 15', descripcion: 'Blusa Dolce&Gabbana', precio: '$10.00', imagen: 'imagenes/producto15.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 16', descripcion: 'Descripción personalizada del Producto 16', precio: '$10.00', imagen: 'imagenes/producto16.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 17', descripcion: 'Descripción personalizada del Producto 17', precio: '$10.00', imagen: 'imagenes/producto17.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 18', descripcion: 'Descripción personalizada del Producto 18', precio: '$10.00', imagen: 'imagenes/producto18.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 19', descripcion: 'Top Christian Dior', precio: '$10.00', imagen: 'imagenes/producto19.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 20', descripcion: 'Descripción personalizada del Producto 20', precio: '$10.00', imagen: 'imagenes/producto20.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 21', descripcion: 'Descripción personalizada del Producto 21', precio: '$10.00', imagen: 'imagenes/producto21.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 22', descripcion: 'Descripción personalizada del Producto 22', precio: '$10.00', imagen: 'imagenes/producto22.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 23', descripcion: 'Descripción personalizada del Producto 23', precio: '$10.00', imagen: 'imagenes/producto23.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 24', descripcion: 'Short Adidas', precio: '$10.00', imagen: 'imagenes/producto24.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 25', descripcion: 'Descripción personalizada del Producto 25', precio: '$10.00', imagen: 'imagenes/producto25.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 26', descripcion: 'Descripción personalizada del Producto 26', precio: '$10.00', imagen: 'imagenes/producto26.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 27', descripcion: 'Descripción personalizada del Producto 27', precio: '$10.00', imagen: 'imagenes/producto27.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 28', descripcion: 'Camiseta Louis Vuitton', precio: '$10.00', imagen: 'imagenes/producto28.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 29', descripcion: 'Descripción personalizada del Producto 29', precio: '$10.00', imagen: 'imagenes/producto29.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 30', descripcion: 'Conjunto Prada', precio: '$10.00', imagen: 'imagenes/producto30.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 31', descripcion: 'Polo James Bark', precio: '$10.00', imagen: 'imagenes/producto31.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 32', descripcion: 'Descripción personalizada del Producto 32', precio: '$10.00', imagen: 'imagenes/producto32.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 33', descripcion: 'Descripción personalizada del Producto 33', precio: '$10.00', imagen: 'imagenes/producto33.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 34', descripcion: 'Sweeter Hombre Prada', precio: '$10.00', imagen: 'imagenes/producto34.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 35', descripcion: 'Descripción personalizada del Producto 35', precio: '$10.00', imagen: 'imagenes/producto35.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 36', descripcion: 'Descripción personalizada del Producto 36', precio: '$10.00', imagen: 'imagenes/producto36.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 37', descripcion: 'Descripción personalizada del Producto 37', precio: '$10.00', imagen: 'imagenes/producto37.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 38', descripcion: 'Descripción personalizada del Producto 38', precio: '$10.00', imagen: 'imagenes/producto38.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 39', descripcion: 'Descripción personalizada del Producto 39', precio: '$10.00', imagen: 'imagenes/producto39.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 40', descripcion: 'Descripción personalizada del Producto 40', precio: '$10.00', imagen: 'imagenes/producto40.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 41', descripcion: 'Descripción personalizada del Producto 41', precio: '$10.00', imagen: 'imagenes/producto41.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 42', descripcion: 'Descripción personalizada del Producto 42', precio: '$10.00', imagen: 'imagenes/producto42.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 43', descripcion: 'Descripción personalizada del Producto 43', precio: '$10.00', imagen: 'imagenes/producto43.jpg', categoria: 'ropa' },
+                { nombre: 'Producto 44', descripcion: 'Descripción personalizada del Producto 44', precio: '$10.00', imagen: 'imagenes/producto44.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 45', descripcion: 'Descripción personalizada del Producto 45', precio: '$10.00', imagen: 'imagenes/producto45.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 46', descripcion: 'Descripción personalizada del Producto 46', precio: '$10.00', imagen: 'imagenes/producto46.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 47', descripcion: 'Descripción personalizada del Producto 47', precio: '$10.00', imagen: 'imagenes/producto47.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 48', descripcion: 'Descripción personalizada del Producto 48', precio: '$10.00', imagen: 'imagenes/producto48.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 49', descripcion: 'Descripción personalizada del Producto 49', precio: '$10.00', imagen: 'imagenes/producto49.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 50', descripcion: 'Descripción personalizada del Producto 50', precio: '$10.00', imagen: 'imagenes/producto50.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 51', descripcion: 'Descripción personalizada del Producto 51', precio: '$10.00', imagen: 'imagenes/producto51.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 52', descripcion: 'Descripción personalizada del Producto 52', precio: '$10.00', imagen: 'imagenes/producto52.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 53', descripcion: 'Descripción personalizada del Producto 53', precio: '$10.00', imagen: 'imagenes/producto53.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 54', descripcion: 'Descripción personalizada del Producto 54', precio: '$10.00', imagen: 'imagenes/producto54.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 55', descripcion: 'Descripción personalizada del Producto 55', precio: '$10.00', imagen: 'imagenes/producto55.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 56', descripcion: 'Descripción personalizada del Producto 56', precio: '$10.00', imagen: 'imagenes/producto56.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 57', descripcion: 'Descripción personalizada del Producto 57', precio: '$10.00', imagen: 'imagenes/producto57.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 58', descripcion: 'Descripción personalizada del Producto 58', precio: '$10.00', imagen: 'imagenes/producto58.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 59', descripcion: 'Descripción personalizada del Producto 59', precio: '$10.00', imagen: 'imagenes/producto59.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 60', descripcion: 'Descripción personalizada del Producto 60', precio: '$10.00', imagen: 'imagenes/producto60.jpg', categoria: 'gorras' },
+                { nombre: 'Producto 61', descripcion: 'Descripción personalizada del Producto 61', precio: '$10.00', imagen: 'imagenes/producto61.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 62', descripcion: 'Descripción personalizada del Producto 62', precio: '$10.00', imagen: 'imagenes/producto62.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 63', descripcion: 'Descripción personalizada del Producto 63', precio: '$10.00', imagen: 'imagenes/producto63.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 64', descripcion: 'Descripción personalizada del Producto 64', precio: '$10.00', imagen: 'imagenes/producto64.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 65', descripcion: 'Descripción personalizada del Producto 65', precio: '$10.00', imagen: 'imagenes/producto65.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 66', descripcion: 'Descripción personalizada del Producto 66', precio: '$10.00', imagen: 'imagenes/producto66.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 67', descripcion: 'Descripción personalizada del Producto 67', precio: '$10.00', imagen: 'imagenes/producto67.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 68', descripcion: 'Descripción personalizada del Producto 68', precio: '$10.00', imagen: 'imagenes/producto68.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 69', descripcion: 'Descripción personalizada del Producto 69', precio: '$10.00', imagen: 'imagenes/producto69.jpg', categoria: 'bolsos' },
+                { nombre: 'Producto 70', descripcion: 'Descripción personalizada del Producto 70', precio: '$10.00', imagen: 'imagenes/producto70.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 71', descripcion: 'Descripción personalizada del Producto 71', precio: '$10.00', imagen: 'imagenes/producto71.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 72', descripcion: 'Descripción personalizada del Producto 72', precio: '$10.00', imagen: 'imagenes/producto72.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 73', descripcion: 'Descripción personalizada del Producto 73', precio: '$10.00', imagen: 'imagenes/producto73.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 74', descripcion: 'Descripción personalizada del Producto 74', precio: '$10.00', imagen: 'imagenes/producto74.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 75', descripcion: 'Descripción personalizada del Producto 75', precio: '$10.00', imagen: 'imagenes/producto75.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 76', descripcion: 'Descripción personalizada del Producto 76', precio: '$10.00', imagen: 'imagenes/producto76.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 77', descripcion: 'Descripción personalizada del Producto 77', precio: '$10.00', imagen: 'imagenes/producto77.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 78', descripcion: 'Descripción personalizada del Producto 78', precio: '$10.00', imagen: 'imagenes/producto78.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 79', descripcion: 'Descripción personalizada del Producto 79', precio: '$10.00', imagen: 'imagenes/producto79.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 80', descripcion: 'Descripción personalizada del Producto 80', precio: '$10.00', imagen: 'imagenes/producto80.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 81', descripcion: 'Descripción personalizada del Producto 81', precio: '$10.00', imagen: 'imagenes/producto81.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 82', descripcion: 'Descripción personalizada del Producto 82', precio: '$10.00', imagen: 'imagenes/producto82.jpg', categoria: 'carteras' },
+                { nombre: 'Producto 83', descripcion: 'Descripción personalizada del Producto 83', precio: '$10.00', imagen: 'imagenes/producto83.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 84', descripcion: 'Descripción personalizada del Producto 84', precio: '$10.00', imagen: 'imagenes/producto84.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 85', descripcion: 'Descripción personalizada del Producto 85', precio: '$10.00', imagen: 'imagenes/producto85.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 86', descripcion: 'Descripción personalizada del Producto 86', precio: '$10.00', imagen: 'imagenes/producto86.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 87', descripcion: 'Descripción personalizada del Producto 87', precio: '$10.00', imagen: 'imagenes/producto87.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 88', descripcion: 'Descripción personalizada del Producto 88', precio: '$10.00', imagen: 'imagenes/producto88.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 89', descripcion: 'Descripción personalizada del Producto 89', precio: '$10.00', imagen: 'imagenes/producto89.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 90', descripcion: 'Descripción personalizada del Producto 90', precio: '$10.00', imagen: 'imagenes/producto90.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 91', descripcion: 'Descripción personalizada del Producto 91', precio: '$10.00', imagen: 'imagenes/producto91.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 92', descripcion: 'Descripción personalizada del Producto 92', precio: '$10.00', imagen: 'imagenes/producto92.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 93', descripcion: 'Descripción personalizada del Producto 93', precio: '$10.00', imagen: 'imagenes/producto93.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 94', descripcion: 'Descripción personalizada del Producto 94', precio: '$10.00', imagen: 'imagenes/producto94.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 95', descripcion: 'Descripción personalizada del Producto 95', precio: '$10.00', imagen: 'imagenes/producto95.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 96', descripcion: 'Descripción personalizada del Producto 96', precio: '$10.00', imagen: 'imagenes/producto96.jpg', categoria: 'accesorios' },
+                { nombre: 'Producto 97', descripcion: 'Descripción personalizada del Producto 97', precio: '$10.00', imagen: 'imagenes/producto97.jpg', categoria: 'accesorios' }
             ];
 
             productos.forEach((producto) => {
@@ -402,11 +511,15 @@
 
                 divProducto.innerHTML = `
                     <img src="${producto.imagen}">
+                    <p class="precio">${producto.precio}</p>
                 `;
 
                 divProducto.addEventListener("click", function () {
                     modal.style.display = "flex";
                     modalImage.src = producto.imagen;
+                    modalPrice.textContent = producto.precio;
+                    whatsappButton.href = `https://wa.me/+50688093380?text=Hola,%20quiero%20más%20información%20sobre%20este%20producto:%20${producto.imagen}`;
+
                 });
 
                 categorias[producto.categoria].appendChild(divProducto);
@@ -423,6 +536,7 @@
                 }
             }
         });
+        
     </script>
 </body>
 </html>
